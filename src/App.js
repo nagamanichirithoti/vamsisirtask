@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import Navbar1 from "./Navbar";
+import {Routes, Route} from 'react-router-dom'
+import Home from "./Home";
+import Product from "./Producte";
+import Cart from "./Cart";
+import { useEffect,useState } from "react";
+import axios from 'axios'
 
 function App() {
+  const [data,setData]= useState([])
+
+  useEffect(()=>{
+    axios.get("http://localhost:4000/products").then(res=>setData(res.data)).catch(err=>{
+      console.log(err)
+    })
+  },[])
+ 
+console.log(data)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+     <Navbar1 />
+     <Routes>
+       
+       <Route path="/home" element={<Home />} />
+       <Route path="/product" element={<Product data={data} />} />
+       <Route path="/cart" element={<Cart />} />
+      
+
+       
+     </Routes>
     </div>
   );
 }
